@@ -8,7 +8,7 @@ services:
       - ./go.sum:/app/go.sum
       - ./main.go:/app/main.go
       - ./src/:/app/src
-      - ./.env:/app/env
+      - ./.env:/app/.env
       - ./go-pkg-mod:/go/pkg/mod
       - ./assets/:/app/assets
     command: sh -c "cd /app && go run main.go"

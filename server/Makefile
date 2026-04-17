@@ -6,6 +6,7 @@ test:
 ################### PODMAN #####################
 up:
 	podman-compose --env-file ./.env up -d
+	$(MAKE) flogs
 
 down:
 	podman-compose --env-file ./.env down
@@ -14,6 +15,9 @@ re: down up
 
 ps:
 	podman-compose --env-file ./.env ps
+
+restart:
+	podman-compose --env-file ./.env restart $(ARGS)
 
 ### Logs
 
