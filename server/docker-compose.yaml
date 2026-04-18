@@ -6,7 +6,8 @@ services:
     volumes:
       - ./go.mod:/app/go.mod
       - ./go.sum:/app/go.sum
-      - ./src/:/app/src
+      - ./internal/:/app/internal
+      - ./cmd/server:/app/cmd/server
       - ./.env:/app/.env
       - ./.go-cont/:/go/
       - ./assets/:/app/assets

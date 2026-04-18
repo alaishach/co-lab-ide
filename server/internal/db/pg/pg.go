@@ -4,7 +4,7 @@ package pg
 import (
 	"fmt"
 	"log"
-	"server/src/utils"
+	"server/internal/utils"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"

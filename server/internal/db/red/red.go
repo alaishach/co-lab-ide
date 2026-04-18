@@ -4,7 +4,7 @@ package red
 import (
 	"context"
 	"github.com/redis/go-redis/v9"
-	"server/src/utils"
+	"server/internal/utils"
 )
 
 var Client *redis.Client

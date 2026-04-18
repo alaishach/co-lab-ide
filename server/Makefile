@@ -33,11 +33,17 @@ flogs:
 ### Clean
 
 vclean:
-	podman-compose down -v
+	if [ $(ENV) = dev ]; then \
+		podman-compose down -v \
+	else \
+		echo "WARNING: do not run vclean in prod"; \
+	fi
 
-fclean: down
+clean: down
+	sudo rm -rf .go.cont server/tmp/main
+
+fclean: clean
 	podman system prune -af --volumes
-	sudo rm -rf .go.cont
 
 ################### Postgres #####################
 
