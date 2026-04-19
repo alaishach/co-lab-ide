@@ -2,6 +2,9 @@ import dotenv, os, sys
 
 from requests import Response
 
+CWD = os.getcwd()
+PROJECT_ROOT = CWD[0:CWD.find("server")+6]
+
 dotenv.load_dotenv()
 
 def getEnv(key) -> str:
