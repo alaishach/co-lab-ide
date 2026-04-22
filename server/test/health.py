@@ -1,8 +1,9 @@
 import requests
 
 import subprocess, sys, datetime, time
-from utils import PROJECT_ROOT, SERVER_API, checkRespOk
+from utils import GREEN, PROJECT_ROOT, RED, RESET, SERVER_API, checkRespOk, deco, decoTitle
 
+@deco
 def startup():
     startTime = datetime.datetime.now().timestamp()
 
@@ -12,21 +13,25 @@ def startup():
         startupTime = now - startTime
         if out.find("[GIN-debug] Listening and serving HTTP on :") >= 0:
             if startupTime < 1:
-                print("Gin Server already running")
+                print(f"{GREEN}Gin Server already running{RESET}")
             else:
-                print("Gin Server startup successfull\nStartup time: ", startupTime)
+                print(f"{GREEN}Gin Server startup successfull\nStartup time: {RESET}", startupTime)
             return
         if startupTime >= 120:
-            print("Error starting up server")
+            print(f"{RED}Error starting up server{RESET}")
             print(out)
             sys.exit(1)
         time.sleep(5)
 
-def healthCheck():
-    startup()
+@deco
+def apiHealth():
     resp = requests.get(SERVER_API + "/health")
-    checkRespOk(resp, "healtTest", 200)
-    print("Health Check Pass")
+    checkRespOk(resp, "healthTest", 200)
+
+@decoTitle
+def health():
+    startup()
+    apiHealth()
 
 if __name__ == "__main__":
-    healthCheck()
+    health()

@@ -1,3 +1,4 @@
+from typing import Callable
 import dotenv, os, sys
 
 from requests import Response
@@ -7,9 +8,25 @@ PROJECT_ROOT = CWD[0:CWD.find("server")+6]
 
 GREEN = "\033[32m"
 RED = "\033[91m"
+BLUE = "\033[34m"
 RESET = "\033[0m"
 
 dotenv.load_dotenv()
+
+def deco(func: Callable):
+    def wrapper():
+        print(f"{BLUE}" + 15 * "- ")
+        print(f"TEST: {RESET}", func.__name__.upper())
+        func()
+        print("")
+    return wrapper
+
+def decoTitle(func: Callable):
+    def wrapper():
+        print(f"{BLUE}" + 10 * "-" + func.__name__ + 10 * "-")
+        func()
+        print("")
+    return wrapper
 
 def getEnv(key) -> str:
     value = os.getenv(key)

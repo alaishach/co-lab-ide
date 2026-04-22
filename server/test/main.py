@@ -1,5 +1,6 @@
-from health import healthCheck
+from health import health
 from auth import auth
 
-healthCheck()
+print("")
+health()
 auth()
