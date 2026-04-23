@@ -4,14 +4,13 @@ package pg
 import (
 	"database/sql"
 	"errors"
+	"github.com/google/uuid"
+	"github.com/lib/pq"
+	"golang.org/x/crypto/bcrypt"
 	"server/internal/err/errpg"
 	errgl "server/internal/err/global"
 	"server/internal/err/panics"
 	"strconv"
-
-	"github.com/google/uuid"
-	"github.com/lib/pq"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(username string, email string, password []byte) error {
@@ -80,4 +79,19 @@ func GetSessionByToken(sessionToken string) *SessionData {
 		}
 	}
 	return &session
+}
+
+func DeleteSession(sessionToken string) error {
+	res, err := DB.Exec("delete from sessions where session_token=$1", sessionToken)
+	if err != nil {
+		return errpg.NewPgError(err)
+	}
+	if num, err := res.RowsAffected(); num == 0 || err != nil {
+		if num == 0 {
+			return errgl.ErrNotAuthorized
+		} else if err != nil {
+			return err
+		}
+	}
+	return nil
 }

@@ -44,11 +44,18 @@ func GetSession(sessionToken string) *pg.SessionData {
 		return nil
 	}
 	if err != nil {
-		panics.PanicRedis("GetSession getting from redis", err)
+		panics.PanicRedis("GetSession reading sessionToken from redis", err)
 	}
 	var session pg.SessionData
 	if err := json.Unmarshal([]byte(val), &session); err != nil {
 		panics.PanicRedis("Get Session Unmarshalling", err)
 	}
 	return &session
+}
+
+func DeleteSession(sessionToken string) {
+	err := Client.Del(Ctx, sessionToken).Err()
+	if err != nil {
+		panics.PanicRedis("DeleteSession from redis", err)
+	}
 }

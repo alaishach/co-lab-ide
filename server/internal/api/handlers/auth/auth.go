@@ -108,5 +108,21 @@ func GetLogin(c *gin.Context) {
 			return
 		}
 	}
+	red.AddSession(*session)
 	c.JSON(200, reqs.SimpleMessage("success"))
+}
+
+func Logout(c *gin.Context) {
+	sessionToken, err := c.Cookie("sessionToken")
+	if errors.Is(err, http.ErrNoCookie) {
+		c.JSON(401, reqs.SimpleMessage("Not authorized"))
+	}
+	red.DeleteSession(sessionToken)
+	if err := pg.DeleteSession(sessionToken); err != nil {
+		if errors.Is(err, errgl.ErrNotAuthorized) {
+			c.JSON(401, reqs.SimpleMessage("unauthorized"))
+		} else {
+			c.JSON(500, reqs.SimpleMessage("Server side error"))
+		}
+	}
 }

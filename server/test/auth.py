@@ -54,17 +54,28 @@ def postlogin():
 
 @deco
 def getlogin():
-    # success
+    # valid
     resp = requests.get(SERVER_API+"/login", cookies=COOKIES)
     checkRespOk(resp, "Login2", 200)
+    # error
     resp = requests.get(SERVER_API+"/login", cookies={"sessionToken":"something random"})
     checkRespOk(resp, "Login2", 401, "session expired")
+
+@deco
+def logout():
+    # valid
+    resp = requests.delete(SERVER_API+"/logout", cookies=COOKIES)
+    checkRespOk(resp, "Login2", 200)
+    # error
+    resp = requests.delete(SERVER_API+"/logout", cookies=COOKIES)
+    checkRespOk(resp, "Login2", 401, "unauthorized")
 
 @decoTitle
 def auth():
     signup()
     postlogin()
     getlogin()
+    logout()
 
 if __name__ == "__main__":
     auth()

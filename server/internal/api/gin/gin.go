@@ -24,10 +24,12 @@ func Run() {
 	// Health
 	api.GET("/health", health.Health)
 
+	// TODO rename
 	// Auth
 	api.POST("/signup", auth.Signup)
 	api.POST("/login", auth.PostLogin)
 	api.GET("/login", auth.GetLogin)
+	api.DELETE("/logout", auth.Logout)
 
 	checkRunning()
 }

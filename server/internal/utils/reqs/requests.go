@@ -34,6 +34,6 @@ func SetServerCookie(c *gin.Context, name string, value string) {
 	if consts.ENV == "dev" {
 		c.SetCookie(name, value, halfYear, "/api", consts.SERVER_DOMAIN, false, true)
 	} else {
-		http.SetCookie(c.Writer, &http.Cookie{Name: name, Value: value, Domain: consts.SERVER_DOMAIN, Path: "/", MaxAge: halfYear, HttpOnly: true, Secure: true, SameSite: http.SameSiteDefaultMode})
+		http.SetCookie(c.Writer, &http.Cookie{Name: name, Value: value, Domain: consts.SERVER_DOMAIN, Path: "/api", MaxAge: halfYear, HttpOnly: true, Secure: true, SameSite: http.SameSiteDefaultMode})
 	}
 }
